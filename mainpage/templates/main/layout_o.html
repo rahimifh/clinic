@@ -1,0 +1,17 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block layout %}
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        {% include "partials/header.html" %}
+
+        <div class="app-main">
+            {% include "partials/sidebar.html" %}
+                <div class="app-main__outer">
+                    {% block content %} {% endblock %}
+                    {% include "partials/footer.html" %}
+                </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+<style media="screen">
+  .myform p{
+    display: flex;
+    margin-right: 10px;
+  }
+</style>
+                    <div class="app-main__inner">
+                      <div class="main-card mb-3 card" style="justify-content: right;">
+                          <div class="card-body" style="justify-content: right;"><h5 class="card-title" style="text-align: center;">فیلتر</h5>
+                              <div>
+                                  <form style="justify-content: space-around; direction: rtl; " class="form-inline" action="{% url 'main:Turn_list' %}" method="post">
+
+                                      <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group myform" >
+                                        {% csrf_token %}
+                                        {{form.as_p}}
+                                      </div>
+                                      <button class="btn btn-primary" type="submit">اعمال فیلتر</button>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row" style="justify-content: right;">
+                          <div class="col-md-6 col-xl-4"  >
+
+                              <div class="card mb-3 widget-content bg-grow-early">
+                                  <div class="widget-content-wrapper text-white">
+                                      <div class="widget-content-left">
+                                          <div class="widget-heading"></div>
+                                          <div class="widget-subheading"></div>
+                                      </div>
+                                      <div class="widget-content-right">
+                                          <div class="widget-numbers text-white"><span>خروجی اكسل</span></div>
+                                      </div>
+                                  </div>
+                              </div></a>
+                          </div>
+{#                          <div class="d-xl-none d-lg-block col-md-6 col-xl-4">#}
+{#                              <div class="card mb-3 widget-content bg-premium-dark">#}
+{#                                  <div class="widget-content-wrapper text-white">#}
+{#                                      <div class="widget-content-left">#}
+{#                                          <div class="widget-heading">Products Sold</div>#}
+{#                                          <div class="widget-subheading">Revenue streams</div>#}
+{#                                      </div>#}
+{#                                      <div class="widget-content-right">#}
+{#                                          <div class="widget-numbers text-warning"><span>$14M</span></div>#}
+{#                                      </div>#}
+{#                                  </div>#}
+{#                              </div>#}
+{#                          </div>#}
+                      </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="btn btn-" href="{% url 'main:t_download' %}"> دریافت اکسل</button>
+
+                                                <button class="active btn btn-focus">لیست نوبت ها</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">بیمار</th>
+                                                <th class="text-center">شماره</th>
+                                                <th class="text-center">خدمت</th>
+                                                 <th class="text-center">همكار</th>
+                                                <th>تاریخ</th>
+                                                <th class="text-center">حذف نوبت</th>
+
+
+
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in turns %}
+                                            <tr>
+                                                                                                <td class="text-center">
+                                                  <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+                                                </td>
+                                                                                                <td class="text-center">
+                                                  {{i.TurnCode}}
+                                                </td>
+                                                                                                <td class="text-center">
+                                                  {% if i.part == 0 %}
+                                                   'Post-مغز'
+                                                  {% elif i.part == 1 %}
+                                                      'post-کمر'
+                                                    {% elif i.part == 2 %}
+                                                     'post-هیپوفیز'
+                                                    {% elif i.part == 3 %}
+                                                    'new-مغز'
+                                                    {% elif i.part == 4 %}
+                                                    'new-کمر'
+                                                    {% elif i.part == 5 %}
+                                                      'new-هیپوفیز'
+                                                    {% elif i.part == 6 %}
+                                                     'بخیه-مغز'
+                                                    {% elif i.part == 7 %}
+                                                      'بخیه-کمر'
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-center">{{i.user}}</td>
+                                                                                                <td>
+                                                  {{i.get_jalali_date}}
+                                                </td>
+                                                <td class="text-center text-muted">
+                                                  <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" type="submit"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+                                                  </form>
+                                                </td>
+
+
+
+
+
+                                            </tr>
+                                          {% empty %}
+
+                                          <td class="text-center">
+                                              نوبتی برای امروز ثبت نشده است.
+                                          </td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-block text-center card-footer">
+                                      <a  href="{% url 'main:Turn_list' %}"><button class="btn-wide btn btn-success">لیست  نوبت</button></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو در نوبت ها : کد ملی';
+  document.getElementById('id_status').value = '4';
+</script>
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+{{ form.media }}
+{% endblock %}

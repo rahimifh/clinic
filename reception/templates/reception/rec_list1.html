@@ -1,0 +1,56 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load main_tags %}
+{% block custom_css %}<link href="{% static 'css/list_page.css' %}?v=1" rel="stylesheet">{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="search_main">
+  {% show_search %}
+</div>
+<div class="header">
+  <table class="table-bordered table-hover">
+    <caption class="text-center"><h2>لیست پذیرش ها</h2></caption>
+    <thead>
+      <tr>
+        <th>مرحله</th>
+        <th>بیمار</th>
+        <th>کد پذیرش</th>
+        <th>کد نوبت</th>
+        <th>تاریخ پذیرش</th>
+        <th data-priority="1"></th>
+        <th data-priority="2"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in Reception %}
+      <tr>
+        {% if i.TypeTurn == 0 %}
+          <td style="background:yellow;color:black;">جدید</td>
+        {% elif i.TypeTurn == 1 %}
+          <td style="background:orange;color:black;">بعد از عمل</td>
+        {% elif i.TypeTurn == 2 %}
+        <td style="background:olive;color:black;">رویت MRA</td>
+        {% endif %}
+        <td>{{i.Patient}}</td>
+        <td>{{i.EntranceCode}}</td>
+        <td>{{i.TurnCode}}</td>
+        <td>{{i.get_jalali_date.date}}</td>
+        <td style="background-color: #88D1E0;"><a href="{{i.Patient.get_absolute_url}}">پرونده بیمار</a></td>
+        <td style="background-color: #88D1E0;"><a href="{{i.get_absolute_url}}">فایل پذیرش</a></td>
+      </tr>
+      {% empty %}
+      <li>تا کنون وقتی برای امروز صادر نشده</li>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو در پذیرش ها: کدپذیرش ، شماره نوبت، معرف';
+  document.getElementById('id_status').value = '2';
+</script>
+
+
+
+{% endblock %}

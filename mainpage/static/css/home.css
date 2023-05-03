@@ -1,0 +1,114 @@
+.back_image{
+  background-image: url('banner.JPG');
+  background-size: cover;
+
+
+}
+.main_page_c{
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  margin-top: 5px;
+
+}
+.main_button a{
+  height: 20px;
+  background-color: #85152b;
+  color:white;
+  text-decoration: none;
+  font-size: 2vw;
+  width: 40vw;
+  border-radius: 1vw;
+  padding: 10px;
+  margin-left: 1vw;
+  margin-bottom: 1vw;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
+
+}
+.continer{
+  width: 80%;
+  height: auto;
+ border-radius: 20px;
+ padding: 10px;
+
+  margin-right: 10%;
+  min-height: 200px;
+
+}
+.error{
+  width: 80%;
+  height: auto;
+ border-radius: 20px;
+ padding: 10px;
+ background-color: white;
+  margin-right: 10%;
+  min-height: 200px;
+  text-align: center;
+  margin-top: 50px;
+  border: 1px solid rgb(200, 200, 200);
+  color: red;
+
+}
+.main_button{
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding-top: 10%;
+
+}
+
+.search_main{
+  margin-top: 60px;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+
+}
+.search_main form{
+  width: 100%;
+}
+.search_main input{
+  width: 70%;
+  background: white;
+  padding: 10px;
+  padding-left: 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 40px;
+  font-size: 14px;
+  border:1px solid rgb(200, 200, 200);
+  text-align: center;
+  margin-left: -5px;
+}
+.search_main button{
+  width: 15%;
+  border-bottom: 5px  solid #88D1E0;
+  border-top: 2px  solid #88D1E0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 60px;
+}
+.turn_box{
+  min-height: 400px;
+  background-color: white;
+  border: 1px solid rgb(200,200,200);
+}
+.table-mess{
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+  color: rgb(200, 200, 200);
+}
+.homelogo{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-top: 120px;
+  margin-right: 5%;
+  font-weight: bold;
+}

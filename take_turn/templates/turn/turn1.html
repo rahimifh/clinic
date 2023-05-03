@@ -1,0 +1,115 @@
+{% extends "main/base1.html" %}
+{% load static %}
+{% load jalali_tags %}
+{% block title %}p_login{% endblock %}
+{% block custom_css %}
+<link href="{% static 'css/turn.css' %}?v=26" rel="stylesheet">
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+
+<div class="turn_form">
+  {% if patient %}
+  <div class="patient_d">
+    <h3>{{patient.p_name}} {{patient.last_name}}</h3>
+    <h2>درخواست نوبت براي بيمار ({{patient.NationalCode}})</h2>
+  </div>
+
+    <form class="" action="{% url 'turn:take_turn_s' patient.id %}" method="post">
+    {% else %}
+    <form class="" action="{% url 'turn:take_turn' %}" method="post">
+  {% endif %}
+  {% if not patient %}
+    <h2>ثبت نوبت</h2>
+  {% endif %}
+    {% csrf_token %}
+    <table class="Form-Table turn_box2">
+      {% if form.Patient %}
+      <tbody>
+        <tr>
+          <td>{{form.Patient}}*</td>
+          <td>{{form.mobile}}*</td>
+        </tr>
+      </tbody>
+        {% endif %}
+      <tbody>
+        <tr>
+         <td>{{form.TypeTurn}}{{form.part}}*</td>
+        <td>{{form.date_time}}*</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="turn_form_btn">
+      {{form.Description}}
+  <td><p>{{ request.user.date_joined|to_jalali:' تاریخ: 14%y/%m/%d_ ساعت: %H:%M' }}</p><button class ="ebtn" type="submit" name="button">ثبت</button>{% if patient %} <a  id="wbtna" href="{{patient.get_absolute_url }}"><button class ="wbtn" type="button" >پرونده بيمار </button></a>{% endif %}</td>
+    </div>
+  </form>
+</div>
+<div class="turn_box">
+
+
+<table class="table-bordered">
+  <caption class="text-center"><h2>نوبت های صادر شده </h2></caption>
+  <thead>
+    <tr>
+      <th>بیمار</th>
+      <th data-priority="1">شماره</th>
+      <th data-priority="2">همکار</th>
+      <th data-priority="3">تاریخ نوبت</th>
+      <th data-priority="4">حذف نوبت</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in turn %}
+    <tr>
+
+      <td><a href="{{i.Patient.get_absolute_url}}">{{i.Patient}}</a></td>
+      <td>{{i.TurnCode}}</td>
+      <td>{{i.user}}</td>
+      <td>{{i.get_jalali_date}}</td>
+
+      <td>
+        <form  action="{% url 'turn:delete_turn' i.id %}" method="post">
+          {% csrf_token %}
+          <button class ="ebtn" type="submit" name="button">حذف نوبت</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <td class="turn_li">تا کنون وقتی برای امروز صادر نشده</td>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script type="text/javascript">
+    window.holidays = [];
+    document.getElementById('id_date_time_0').placeholder ='تاریخ 01-01-1400';
+    document.getElementById('id_date_time_1').placeholder ='ساعت 10:10';
+    document.getElementById('id_Description').placeholder ='توضیحات';
+    document.getElementById('id_Patient').placeholder ='شماره ملی';
+    document.getElementById('id_mobile').placeholder ='شماره موبایل';
+
+</script>
+{% for i in lsit_day %}
+<script type="text/javascript">
+  window.holidays.push('{{i.get_jalali_date}}')
+</script>
+{% endfor %}
+<script>
+    //script1
+    var inputs = document.querySelectorAll('#id_date_time_0');
+
+    for (i = 0; i < inputs.length; i++) {
+        (function (i) {
+          inputs[i].addEventListener('click', function () {
+                Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+            });
+        })(i);
+    }
+    //script1
+</script>
+{{ form.media }}
+{% endblock %}

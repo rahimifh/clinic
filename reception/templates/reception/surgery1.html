@@ -1,0 +1,93 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block custom_css %}
+<link href="{% static 'css/surgery.css' %}?v=6" rel="stylesheet">
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="surgery-box">
+  <div class="surgery_form_head">
+    <h2>فرم ارجاع به جراحي</h2>
+  </div>
+  <table class="Form-Table">
+
+    <thead>
+      <tr>
+        <th>نام: {{patient.p_name}}</th>
+        <th>نام خانوادگي: {{patient.last_name}}</th>
+        <th>شماره ملي: {{patient.NationalCode}}</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th>شماره همراه: {{patient.mobile}}</th>
+        <th>جنسيت: {% if patient.Gender == 1 %}مرد {% elif patient.Gender == 0  %} زن {% else %} نامشخص {% endif %}</th>
+        <th>سن: {{patient.age}}</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th>تلفن ثابت: {{patient.land_line_phone}}</th>
+      </tr>
+    </thead>
+    <form class="" action="{% url 'reception:Refer_Surgery' patient.NationalCode %}" method="post" enctype="multipart/form-data">
+    <tbody>
+      <tr>
+        <td>{{form.date_time}}*</td>
+        <td>{{form.name}}*</td>
+        <td>{{form.name_Doc}}*</td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th>{{form.patient_history.label}}</th>
+        <th>{{form.Medical_innocence.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{form.patient_history}}</td>
+        <td>{{form.Medical_innocence}}</td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+              {% csrf_token %}
+        <th><button class="ebtn" type="submit" name="button">ثبت</button></th>
+      </tr>
+    </thead>
+    </form>
+  </table>
+</div>
+
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script type="text/javascript">
+    window.holidays = [];
+</script>
+{% for i in lsit_day %}
+<script type="text/javascript">
+  window.holidays.push('{{i.get_jalali_date}}')
+</script>
+{% endfor %}
+
+<script>
+    //script1
+    var inputs = document.querySelectorAll('#id_date_time');
+
+    for (i = 0; i < inputs.length; i++) {
+        (function (i) {
+          inputs[i].addEventListener('click', function () {
+                Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+            });
+        })(i);
+    }
+    //script1
+</script>
+<script type="text/javascript">
+  document.getElementById('id_name').placeholder ='عنوان عمل جراحي';
+  document.getElementById('id_name_Doc').placeholder ='نام پزشك';
+  document.getElementById('id_date_time').placeholder ="تاريخ عمل 01-01-1400";
+
+</script>
+{% endblock %}

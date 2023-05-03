@@ -1,0 +1,255 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block content %}
+
+<div class="app-main__inner">
+        <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    <div class="btn-actions-pane-right">
+                        <div role="group" class="btn-group-sm btn-group">
+                         <a href="{{this.Patient.get_absolute_url}}"><button class="active btn btn-focus">شماره ملی:{{this.Patient.NationalCode}} </button></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-center">کد پذیرش</th>
+                            <th class="text-center">شماره نوبت</th>
+                            <th class="text-center">تاریخ پذیرش</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center text-muted">
+                                {{this.EntranceCode}}
+                            </td>
+                            <td class="text-center">
+                                {{this.TurnCode}}
+                            </td>
+                            <td class="text-center">
+                                {{this.get_jalali_date.date}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                                                <thead>
+                        <tr>
+                            <th class="text-center">مبلغ قابل پرداخت</th>
+                            <th class="text-center">توضیحات</th>
+                            <th class="text-center">مرحله پذیرش</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center text-muted">
+                                {{this.Payable}}
+                            </td>
+                            <td class="text-center">
+                                {{this.Description}}
+                            </td>
+                            <td class="text-center">
+                            {% if this.TypeTurn == 0 %}
+                            <div class="mb-2 mr-2 badge badge-warning">جدید</div>
+                            {% elif this.TypeTurn == 1 %}
+                              <div class="mb-2 mr-2 badge badge-success">بعد از عمل</div>
+                            {% elif this.TypeTurn == 2 %}
+                            <div class="mb-2 mr-2 badge badge-primary">رویت MRA</div>
+                            {% endif %}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <p class="text-center">لیست خدمات</p>
+                        <thead>
+                        <tr>
+                            <th class="text-center">کد</th>
+                            <th class="text-center">خدمت</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for d in this_service %}
+                        <tr>
+
+                            <td class="text-center text-muted">
+                                {{d.id}}
+                            </td>
+                            <td class="text-center text-muted">
+                                {{d.Services}}
+                            </td>
+                            {% empty %}
+                            <td class="text-center">
+                                تا به حال خدماتی ارائه نشده است.
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <p class="text-center">لیست تشخیص ها </p>
+                        <thead>
+                        <tr>
+                            <th class="text-center">کد</th>
+                            <th class="text-center">تشخیص</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for d in diagnisis %}
+                        <tr>
+
+                            <td class="text-center text-muted">
+                                {{d.id}}
+                            </td>
+                            <td class="text-center text-muted">
+                                {{d.diagnisis}}
+                            </td>
+                            {% empty %}
+                            <td class="text-center">
+                                تشخیصی برای بیمار ثبت نشده  است.
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+            <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    <div class="btn-actions-pane-right">
+                        <div role="group" class="btn-group-sm btn-group">
+                            <button class="active btn btn-focus">لیست پرداخت های بیمار </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-center">صندوقدار</th>
+                            <th class="text-center">موبایل</th>
+                            <th class="text-center">مبلغ پرداخت شده</th>
+                            <th class="text-center">دستگاه</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                           {% for t in paid  %}
+                        <tr>
+                            <td class="text-center text-muted">
+                                {{t.Cashier}}
+                            </td>
+                            <td class="text-center">
+                                {{t.mobile}}
+                            </td>
+                            <td class="text-center">
+                                {{t.Paid}}
+                            </td>
+                            <td class="text-center">
+                                {{t.Device}}
+                            </td>
+                                  {% empty %}
+                         <td>تا کنون پرداختی انجام نشده</td>
+                        </tr>
+                         {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+  <div class="main-card mb-3 card">
+      <div class="card-body">
+
+            <h5 class="card-title">ثبت مبلغ قابل پرداخت</h5>
+            <form class="needs-validation" action="{% url 'reception:receptionDetaile' this.id this.EntranceCode %}" method="post">
+
+              {% csrf_token %}
+              <div class="form-row">
+
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustom01">مبلغ*</label>
+                      {{pform.price}}
+                      {{pform.state}}
+                      <div class="valid-feedback">
+                          Looks good!
+                      </div>
+                  </div>
+              </div>
+
+              <button class="btn btn-primary" type="submit">ثبت مبلغ</button>
+          </form>
+
+      </div>
+  </div>
+
+  <div class="main-card mb-3 card">
+      <div class="card-body">
+
+            <h5 class="card-title">ثبت پرداخت بیمار</h5>
+            <form class="needs-validation" action="{% url 'reception:receptionDetaile' this.id this.EntranceCode %}" method="post" novalidate>
+              {% csrf_token %}
+              <div class="form-row">
+
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustom01">دستگاه*</label>
+                      {{payform.Device}}
+                      {{payform.state}}
+                      <div class="valid-feedback">
+                          Looks good!
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustom02">شماره تماس*</label>
+                      {{payform.mobile}}
+                      <div class="valid-feedback">
+                          Looks good!
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustomUsername">مبلغ پرداختی*</label>
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroupPrepend"></span>
+                          </div>
+                       {{payform.Paid}}
+                          <div class="invalid-feedback">
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <button class="btn btn-primary" type="submit">ثبت پرداخت</button>
+          </form>
+
+      </div>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

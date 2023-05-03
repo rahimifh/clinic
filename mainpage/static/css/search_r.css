@@ -1,0 +1,24 @@
+.search_box1{
+  width: 70vw;
+  margin-right: 10vw;
+  margin-top: 150px;
+  padding-right: 100px;
+  text-align: center;
+
+}
+.search_inner{
+    background-color: #f3f3f5;
+    text-align: center;
+    width: 375px;
+    height: 400px;
+  padding-top: 50px;
+}
+.search_box1 ul{
+  display: flex;
+
+}
+.search_box1 li{
+  margin-right: 20px;
+  font-size: 2vw;
+
+}

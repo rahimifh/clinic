@@ -1,0 +1,60 @@
+{% extends "dashboard/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="app-main__inner" dir="rtl">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                        </i>
+                    </div>
+                    <div>تست
+{#                        <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.#}
+{#                        </div>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                <h5 class="card-title"> انتخاب درست  </h5>
+                                <ul class="list-group">
+
+                                        <li class="list-group-item"><h7 class="list-group-item-heading"></h7>
+                                        </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Controls Types</h5>
+                        <form class="">
+                            {% csrf_token %}
+
+                                <div class="position-relative form-group">
+                                    <label for="exampleEmail" class=""></label>
+
+{#                                                        <input name="email" id="exampleEmail" placeholder="with a placeholder" type="email" class="form-control">#}
+                                </div>
+              
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

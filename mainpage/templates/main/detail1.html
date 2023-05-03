@@ -1,0 +1,210 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block custom_css %}<link href="{% static 'css/detail.css' %}?v=24" rel="stylesheet">{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="detail_container">
+
+
+<div class="header">
+  <div class="topHead">
+    <h1>پرونده:{{patient}}</h1> {% if mess %}
+      <h2 style="color:green;">{{mess}}</h2>
+      {% endif %}
+  </div>
+            {% if patient.NationalCode == None %}
+      <h2 style="color:red;">لطفا ابتدا کدملی بیمار را وارد کنید سپس صفحه را مجدد بارگیری کنید.</h2>
+        {% endif %}
+  <div class="headbottom">
+    <table class="head_p_table" >
+      <thead>
+        <tr>
+          <th>نام</th>
+          <th>نام خانوادگی</th>
+          <th>شماره همراه</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{patient.p_name}}</td>
+          <td>{{patient.last_name}}</td>
+          <td>{{patient.mobile}}</td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <th>تلفن ثابت</th>
+          <th>سن</th>
+          <th>جنسیت</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{patient.land_line_phone}}</td>
+          <td>{{patient.age}}</td>
+          <td>{% if patient.Gender == 1 %}مرد {% elif patient.Gender == 0  %} زن {% else %} نامشخص {% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="patient_nav">
+    <ul>
+      <li><a href="{% url 'turn:take_turn_s' patient.NationalCode %}"><button class="ebtn"  type="button" >ثبت نوبت</button></a></li>
+      <li><a href="{% url 'reception:reception' patient.NationalCode %}"><button class="ebtn"  type="button" >ثبت پذیرش</button></a></li>
+      <li><a href="{% url 'reception:Refer_Surgery' patient.NationalCode %}"><button class="ebtn"  type="button" >ارجاع به جراحی</button></a></li>
+
+    </ul>
+  </div>
+  <div class="surgury_list">
+    <div class="surgury-banner">
+      <h2>لیست ارجاع ها به جراحی </h2>
+    </div>
+  <table class="table-bordered">
+    <thead>
+      <tr>
+        <th>نام عمل</th>
+        <th>نام پزشك</th>
+        <th>تاریخ عمل</th>
+        <th data-priority="1">دریافت فایل شرح حال بیمار</th>
+        <th data-priority="2">دریافت فایل برائت نامه</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in surgery %}
+      <tr>
+
+        <td>{{i.name}}</td>
+        <td>{{i.name_Doc}}</td>
+        <td>{{i.get_jalali_date}}</td>
+        {% if i.patient_history %}<td style="background:darkgreen;color:white;"><a href="{{i.patient_history.url}}">دریافت</a></td>{% else %}<td style="background:darkred;color:white;">موجود نیست</td>{% endif %}
+        {% if i.Medical_innocence %}<td style="background:darkgreen;color:white;"><a href="{{i.Medical_innocence.url}}">دریافت</a></td>{% else %}<td style="background:darkred;color:white;">موجود نیست</td>{% endif %}
+
+      {% empty %}
+      <td>تا كنون ارجاع به جراحی ثبت نشده است.</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+  </div>
+</div>
+<div class="file_footer">
+  <div class="footer_right">
+  <table class="table-bordered table-hover">
+    <caption class="text-center"><h2>نوبت های فعال </h2></caption>
+    <thead>
+      <tr>
+        <th>شماره</th>
+        <th>تاریخ نوبت</th>
+        <th data-priority="1">حذف</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in active_turn  %}
+      <tr>
+        <td>{{i.TurnCode}}</td>
+        <td>{{i.get_jalali_date}}</td>
+        <td style="background-color: #88D1E0;"><a href="{% url 'turn:delete_turn_h' i.id %}">حذف نوبت</a></td>
+      </tr>
+      {% empty %}
+      <td class="turn_li">نوبت فعالی وجود ندارد.</td>
+      {% endfor %}
+    </tbody>
+  </table>
+  <table class="table-bordered table-hover">
+    <caption class="text-center"><h2>نوبت های منقضی شده </h2></caption>
+    <thead>
+      <tr>
+        <th>شماره</th>
+        <th>تاریخ نوبت</th>
+        <th data-priority="1">حذف</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in deactive_turn  %}
+      <tr>
+        <td>{{i.TurnCode}}</td>
+        <td>{{i.get_jalali_date}}</td>
+        <td style="background-color: #88D1E0;"><a href="{% url 'turn:delete_turn_h' i.id %}">حذف نوبت</a></td>
+      </tr>
+      {% empty %}
+      <td class="turn_li">نوبت منقضی شده ای وجود ندارد</td>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  </div>
+  <div class="footer_left">
+
+    <table class="table-bordered table-hover">
+      <caption class="text-center"><h2>لیست پذیرش های انجام شده بیمار</h2></caption>
+      <thead>
+        <tr>
+          <th>کد پذیرش</th>
+          <th>تاریخ پذیرش</th>
+          <th data-priority="1">ورود</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in reception  %}
+        <tr>
+          <td>{{i.EntranceCode}}</td>
+          <td>{{i.get_jalali_date.date}}</td>
+          <td style="background-color: #88D1E0;"><a href="{{i.get_absolute_url}}">ویرایش</a></td>
+        </tr>
+        {% empty %}
+        <td>تا کنون پذیرشی برای بیمار ایجاد نشده</td>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% if patientedit %}
+<div class="edit_patient ">
+  <div class="form_head">
+    <h2>فرم ویرایش پرونده</h2>
+  </div>
+  <form  method="post">
+    <div class="top_edit_patient">
+        {% if patient.NationalCode == None %}
+      <div class="gt">
+        <span>{{ patientedit.NationalCode }}</span>
+      </div>
+        {% endif %}
+      <div class="gt">
+        <span>{{ patientedit.p_name }}*</span>
+        <span>{{ patientedit.mobile }}*</span>
+
+      </div>
+      <div class="gt">
+
+        <span>{{ patientedit.last_name }}*</span>
+        <span>{{ patientedit.land_line_phone }}*</span>
+
+      </div>
+      <div class="gt">
+        <span>{{ patientedit.age }}*</span>
+        <span>{{ patientedit.Gender }}*</span>
+      </div>
+
+    </div>
+    <div class="">
+      <button class="ebtn" type="submit" >ثبت تغییرات </button>
+    </div>
+  {% csrf_token %}
+
+  </form>
+</div>
+{% endif %}
+</div>
+<script type="text/javascript">
+  document.getElementById('id_p_name').placeholder ='نام';
+  document.getElementById('id_mobile').placeholder ='شماره همراه';
+  document.getElementById('id_age').placeholder='سن';
+  document.getElementById('id_last_name').placeholder ='نام خانوادگی';
+  document.getElementById('id_land_line_phone').placeholder ='تلفن ثابت';
+  document.getElementById('id_Gender').placeholder ='جنسیت';
+</script>
+{% endblock %}

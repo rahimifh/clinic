@@ -1,0 +1,117 @@
+{% extends "main/base1.html" %}
+{% load static %}
+{% block custom_css %}<link href="{% static 'css/detail.css' %}?v=13" rel="stylesheet">{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="detail_container">
+<div class="header">
+  <div class="topHead">
+    <h1>شماره ملی:{{this.Patient.NationalCode}}</h1>
+  </div>
+  <div class="headbottom">
+    <table>
+      <thead>
+        <th>کد پذیرش</th>
+        <th>کد نوبت</th>
+        <th>تاریخ پذیرش</th>
+      </thead>
+      <tbody>
+        <td>{{this.EntranceCode}}</td>
+        <td>{{this.TurnCode}}</td>
+        <td>{{this.get_jalali_date.date}}</td>
+
+      </tbody>
+      <thead>
+        <th>مبلغ قابل پرداخت</th>
+        <th>{{pform.price.label}}</th>
+        <th>توضیحات</th>
+      </thead>
+      <tbody>
+        <td>{{this.Payable}}</td>
+        <form class="" action="{% url 'reception:receptionDetaile' this.id this.EntranceCode %}" method="post">
+          {% csrf_token %}
+        <td>{{pform.price}}<br>{{pform.state}}<button style="height:30px;" class="ebtn" type="submit" name="button">ثبت</button></td>
+        <td>{{this.Description}}</td>
+        </form>
+      </tbody>
+      <thead>
+        <th>خدمات ارائه شده به <br>{{this.Patient}}</th>
+        <th>لیست تشخیص ها</th>
+        <th>مرحله پذيرش</th>
+      </thead>
+      <tbody>
+        <td>
+          <ul style="display:grid;">
+          {% for t in this_service %}
+          <li>نام قیمت:{{t.Services}} مبلغ:{{t.price}}</li>
+          {% empty %}
+          <li>تا به حال خدماتی ارائه نشده است.</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul style="display:grid;">
+          {% for d in diagnisis %}
+          <li>کد:{{d.id}}-نام:{{d.diagnisis}}</li>
+          {% empty %}
+          <li>تشخیصی برای بیمار ثبت نشده  است.</li>
+          {% endfor %}
+          </ul>
+        </td>
+        {% if this.TypeTurn == 0 %}
+          <td style="background:yellow;color:black;">جدید</td>
+        {% elif this.TypeTurn == 1 %}
+          <td style="background:orange;color:black;">بعد از عمل</td>
+        {% elif this.TypeTurn == 2 %}
+        <td style="background:olive;color:black;">رویت MRA</td>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <div class="pationt_nav">
+
+
+
+
+
+  </div>
+  </div>
+<div class="edit_patient">
+  <form class="" action="{% url 'reception:receptionDetaile' this.id this.EntranceCode %}" method="post">
+      {% csrf_token %}
+    <div class="chshe_desk_form">
+      {{payform.as_p}}
+    </div>
+
+    <button class="ebtn" style="float:right;" type="submit" name="button">ثبت پرداخت جدید</button>
+  </form>
+</div>
+<div class="edit_patient">
+  <table class="table-bordered table-hover">
+    <caption class="text-center"><h2>لیست پرداخت ها</h2></caption>
+    <thead>
+      <tr>
+        <th>صندوقدار</th>
+        <th>موبایل</th>
+        <th>مبلغ پرداخت شده</th>
+        <th>دستگاه</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in paid  %}
+      <tr>
+        <td>{{t.Cashier}}</td>
+        <td>{{t.mobile}}</td>
+        <td>{{t.Paid}}</td>
+        <td>{{t.Device}}</td>
+
+      </tr>
+      {% empty %}
+      <td>تا کنون پرداختی انجام نشده</td>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endblock %}

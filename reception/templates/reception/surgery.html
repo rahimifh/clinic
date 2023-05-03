@@ -1,0 +1,198 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load jalali_tags %}
+{% block styles %}
+
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+{% endblock %}
+{% block content %}
+<style media="screen">
+.needs-validation textarea{
+  height : 75px;
+
+
+}
+#id_date_time_0{
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+}
+#id_date_time_1{
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+}
+</style>
+<div class="app-main__inner">
+    <div class="main-card mb-3 card">
+<div class="card-body"><h5 class="card-title">مشخصات <a href="{{patient.get_absolute_url}}"><button class="active btn btn-focus">پرونده </button></a></h5>
+<div class="row">
+<div class="col">
+    <ul class="nav flex-column">
+
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">نام
+
+            {% if patient.p_name %}
+              <div class="ml-auto badge badge-success">{{patient.p_name}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.p_name}}</div>
+            {% endif %}
+        </a></li>
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">نام خانوادگي
+
+            {% if patient.last_name %}
+              <div class="ml-auto badge badge-success">{{patient.last_name}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.last_name}}</div>
+            {% endif %}
+        </a></li>
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">شماره تلفن
+
+            {% if patient.mobile %}
+              <div class="ml-auto badge badge-success">{{patient.mobile}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.mobile}}</div>
+            {% endif %}
+        </a></li>
+    </ul>
+</div>
+<div class="col">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">تلفن ثابت
+        {% if patient.land_line_phone %}
+          <div class="ml-auto badge badge-success">{{patient.land_line_phone}}</div>
+        {% else %}
+        <div class="ml-auto badge badge-danger">{{patient.land_line_phone}}</div>
+        {% endif %}
+
+      </a></li>
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">سن
+
+          {% if patient.age %}
+            <div class="ml-auto badge badge-success">{{patient.age}}</div>
+          {% else %}
+          <div class="ml-auto badge badge-danger">{{patient.age}}</div>
+          {% endif %}
+      </a></li>
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">جنسيت
+          {% if patient.Gender == 1 %}<div class="ml-auto badge badge-success"> مرد </div>{% elif patient.Gender == 0  %} <div class="ml-auto badge badge-success"> زن</div> {% else %} <div class="ml-auto badge badge-danger">نا مشخص</div> {% endif %}
+      </a></li>
+
+    </ul>
+</div>
+</div>
+
+</div>
+</div>
+  <div class="main-card mb-3 card">
+      <div class="card-body">
+
+            <h5 class="card-title">ثبت جراحی</h5>
+            <form class="needs-validation" action="{% url 'reception:Refer_Surgery' patient.id %}" method="post" enctype="multipart/form-data">
+
+              {% csrf_token %}
+              <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustom01">عنوان عمل*</label>
+                      {{form.name}}
+                      <div class="valid-feedback">
+                          Looks good!
+                      </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustom02">نام پزشک*</label>
+                      {{form.name_Doc}}
+                      <div class="valid-feedback">
+                          Looks good!
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                      <label for="validationCustomUsername">شرح حال*</label>
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroupPrepend"></span>
+                          </div>
+                        {{form.patient_history}}
+                          <div class="invalid-feedback">
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                      <label for="validationCustom03">برائت نامه*</label>
+                      {{form.Medical_innocence}}
+                      <div class="invalid-feedback">
+                          Please provide a valid part.
+                      </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                      <label for="validationCustom04">تاريخ *</label>
+                      {{form.date_time}}
+                      <div class="invalid-feedback">
+                          Please provide a valid state.
+                      </div>
+                  </div>
+
+              </div>
+            <p>{{ request.user.date_joined|to_jalali:' تاریخ: 14%y/%m/%d_ ساعت: %H:%M' }}</p>
+              <button class="btn btn-primary" type="submit">ثبت ارجاع</button>
+          </form>
+
+      </div>
+  </div>
+
+</div>
+
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script type="text/javascript">
+    window.holidays = [];
+</script>
+{% for i in lsit_day %}
+<script type="text/javascript">
+  window.holidays.push('{{i.get_jalali_date}}')
+</script>
+{% endfor %}
+
+<script>
+    //script1
+    var inputs = document.querySelectorAll('#id_date_time');
+
+    for (i = 0; i < inputs.length; i++) {
+        (function (i) {
+          inputs[i].addEventListener('click', function () {
+                Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+            });
+        })(i);
+    }
+    //script1
+</script>
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو';
+  document.getElementById('id_status').value = '1';
+</script>
+
+{% endblock %}

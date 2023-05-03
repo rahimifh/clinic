@@ -1,0 +1,87 @@
+{% extends "main/base.html" %}
+{% load jalali_tags %}
+{% load main_tags %}
+{% load static %}
+{% block custom_css %}<link href="{% static 'css/home.css' %}?v=37" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="back_image" >
+  <div class="continer">
+
+  <div class="main_page_c">
+    <div class="">
+      {% if mess %}
+        {{mess}}
+      {% endif %}
+    </div>
+
+    <div class="search_main">
+      {% show_search %}
+    </div>
+  </div>
+  <div  class="homelogo">
+    <img src="{% static 'images/LOGO.png' %}" width="50px" height="50px;" alt="">
+    <p>سامانه ثبت اطلاعات بیماران مطب دکتر گیو شریفی</p>
+
+  </div>
+  </div>
+  <div class="turn_box">
+    <table class="table-bordered">
+      <thead>
+        <tr>
+          <th style="border-bottom-right-radius:5px;"><h4>بیمار</h4></th>
+          <th data-priority="1"><p>شماره</p></th>
+          <th><p>خدمت</p> </th>
+          <th data-priority="2"><p>همکار</p></th>
+          <th data-priority="3"><p>تاریخ نوبت</p></th>
+          <th style="border-bottom-left-radius:5px;"><p>حذف نوبت</p></th>
+        </tr>
+      </thead>
+      {% for i in turn %}
+      <tbody>
+
+          <td><a href="{{i.Patient.get_absolute_url}}">{{i.Patient}}</a></td>
+          <td>{{i.TurnCode}}</td>
+                    <td>
+            {% if i.part == 0 %}
+             'Post-مغز'
+            {% elif i.part == 1 %}
+                'post-کمر'
+              {% elif i.part == 2 %}
+               'post-هیپوفیز'
+              {% elif i.part == 3 %}
+              'new-مغز'
+              {% elif i.part == 4 %}
+              'new-کمر'
+              {% elif i.part == 5 %}
+                'new-هیپوفیز'
+              {% elif i.part == 6 %}
+               'بخیه-مغز'
+              {% elif i.part == 7 %}
+                'بخیه-کمر'
+              {% endif %}
+          </td>
+          <td>{{i.user}}</td>
+          <td>{{i.get_jalali_date}}</td>
+          <td>
+            <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+              {% csrf_token %}
+              <button class="wbtn" type="submit" name="button">حذف نوبت</button>
+            </form>
+          </td>
+
+      </tbody>
+      {% endfor %}
+    </table>
+    {% for i in turn %}
+    {% empty %}
+      <div class="table-mess">
+        <h2>وقتی برای امروز صادر نشده است.</h2>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<script type="text/javascript">
+  document.getElementById('id_searchtxt').placeholder ='جستجو پرونده: شماره ملي، تلفن، نام';
+  document.getElementById('id_status').value = '1';
+</script>
+{% endblock %}

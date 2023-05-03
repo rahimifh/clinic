@@ -1,0 +1,182 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load jalali_tags %}
+{% block styles %}
+<link href="{% static 'css/turn.css' %}?v=26" rel="stylesheet">
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+
+                    <div class="app-main__inner">
+                      <div class="main-card mb-3 card">
+                          <div class="card-body">
+                            {% if patient %}
+                              <h5 class="card-title">ثبت نوبت براي پرونده : {{patient}}</h5>
+                              <form class="needs-validation" action="{% url 'turn:take_turn_s' patient.NationalCode %}" method="post">
+                          {% else %}
+                          <h5 class="card-title">ثبت نوبت</h5>
+                            <form class="needs-validation" action="{% url 'turn:take_turn' %}" method="post">
+                              {% endif %}
+                              {% csrf_token %}
+                                  <div class="form-row">
+                                    {% if form.Patient %}
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustom01">كد ملي</label>
+                                          {{form.Patient}}
+                                      </div>
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustom02">تلفن همراه</label>
+                                          {{form.mobile}}
+                                      </div>
+                                      {% endif %}
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustomUsername">نوع درخواست</label>
+                                          <div class="input-group">
+                                              {{form.TypeTurn}}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-row">
+                                      <div class="col-md-6 mb-3">
+                                          <label for="validationCustom03">بخش</label>
+                                          {{form.part}}
+                                      </div>
+                                      <div class="col-md-3 mb-3">
+                                          <label for="validationCustom04">تاريخ</label>
+                                          {{form.date_time}}
+                                      </div>
+                                      <div class="col-md-3 mb-3">
+                                          <label for="validationCustom05">توضيحات</label>
+                                          {{form.Description}}
+                                      </div>
+                                      <p>{{ request.user.date_joined|to_jalali:' تاریخ: 14%y/%m/%d_ ساعت: %H:%M' }}</p>
+                                  </div>
+                                  <button class ="btn btn-primary" type="submit" name="button">ثبت</button>{% if patient %} <a  id="wbtna" href="{{patient.get_absolute_url }}"><button class ="btn btn-primary" type="button" >پرونده بيمار </button></a>{% endif %}
+
+                              </form>
+
+
+                          </div>
+                      </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="active btn btn-focus">ليست نوبت ها</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">حذف نوبت</th>
+                                                <th>تاريخ</th>
+                                                <th class="text-center">همكار</th>
+                                                <th class="text-center">خدمت</th>
+                                                <th class="text-center">شماره</th>
+                                                <th class="text-center">بيمار</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in turn %}
+                                            <tr>
+                                                <td class="text-center text-muted">
+                                                  <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" type="submit"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+                                                  </form>
+                                                </td>
+                                                <td>
+                                                  {{i.get_jalali_date}}
+                                                </td>
+                                                <td class="text-center">{{i.user}}</td>
+                                                <td class="text-center">
+                                                  {% if i.part == 0 %}
+                                                   'Post-مغز'
+                                                  {% elif i.part == 1 %}
+                                                      'post-کمر'
+                                                    {% elif i.part == 2 %}
+                                                     'post-هیپوفیز'
+                                                    {% elif i.part == 3 %}
+                                                    'new-مغز'
+                                                    {% elif i.part == 4 %}
+                                                    'new-کمر'
+                                                    {% elif i.part == 5 %}
+                                                      'new-هیپوفیز'
+                                                    {% elif i.part == 6 %}
+                                                     'بخیه-مغز'
+                                                    {% elif i.part == 7 %}
+                                                      'بخیه-کمر'
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-center">
+                                                  {{i.TurnCode}}
+                                                </td>
+                                                <td class="text-center">
+                                                  <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+                                                </td>
+                                            </tr>
+                                          {% empty %}
+
+                                          <td class="text-center">
+                                              نوبتي براي امروز ثبت نشده است.
+                                          </td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-block text-center card-footer">
+                                      <a  href="{% url 'main:Turn_list' %}"><button class="btn-wide btn btn-success">ليست  نوبت</button></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script type="text/javascript">
+    window.holidays = [];
+    document.getElementById('id_date_time_0').placeholder ='تاریخ 01-01-1400';
+    document.getElementById('id_date_time_1').placeholder ='ساعت 10:10';
+    document.getElementById('id_Description').placeholder ='توضیحات';
+    document.getElementById('id_Patient').placeholder ='شماره ملی';
+    document.getElementById('id_mobile').placeholder ='شماره موبایل';
+
+</script>
+{% for i in lsit_day %}
+<script type="text/javascript">
+  window.holidays.push('{{i.get_jalali_date}}')
+</script>
+{% endfor %}
+<script>
+    //script1
+    var inputs = document.querySelectorAll('#id_date_time_0');
+
+    for (i = 0; i < inputs.length; i++) {
+        (function (i) {
+          inputs[i].addEventListener('click', function () {
+                Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+            });
+        })(i);
+    }
+    //script1
+</script>
+{{ form.media }}
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو در نوبت ها : کد ملی';
+  document.getElementById('id_status').value = '4';
+</script>
+
+{% endblock %}

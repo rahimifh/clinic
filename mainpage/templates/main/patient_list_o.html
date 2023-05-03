@@ -1,0 +1,125 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+                    <div class="app-main__inner">
+
+                      <div class="row" style="justify-content: right;">
+                          <div class="col-md-6 col-xl-4"  >
+                            <a style="text-decoration: none;" href="{% url 'main:p_download' %}">
+                              <div class="card mb-3 widget-content bg-grow-early">
+                                  <div class="widget-content-wrapper text-white">
+                                      <div class="widget-content-left">
+                                          <div class="widget-heading"></div>
+                                          <div class="widget-subheading"></div>
+                                      </div>
+                                      <div class="widget-content-right">
+                                          <div class="widget-numbers text-white"><span>خروجي اكسل</span></div>
+                                      </div>
+                                  </div>
+                              </div></a>
+                          </div>
+                          <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
+                              <div class="card mb-3 widget-content bg-premium-dark">
+                                  <div class="widget-content-wrapper text-white">
+                                      <div class="widget-content-left">
+                                          <div class="widget-heading">Products Sold</div>
+                                          <div class="widget-subheading">Revenue streams</div>
+                                      </div>
+                                      <div class="widget-content-right">
+                                          <div class="widget-numbers text-warning"><span>$14M</span></div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="active btn btn-focus">ليست بيماران</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">ورود</th>
+                                                <th class="text-center">تلفن ثابت</th>
+                                                <th class="text-center">تلفن</th>
+                                                <th clُass="text-center">نام</th>
+                                                <th class="text-center">كد ملي</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in patient %}
+                                            <tr>
+
+                                  <td class="text-center">
+                                    <a href="{{i.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">پرونده</button></a>
+
+                                  </td>
+                                  <td>{{i.land_line_phone}}</td>
+
+                                                <td class="text-center">{{i.mobile}}</td>
+                                                <td class="text-center">
+                                                  {{i.p_name}} {{i.last_name}}
+                                                </td>
+                                                <td class="text-center">
+                                                  {{i.NationalCode}}
+                                                </td>
+
+                                            </tr>
+
+                                          {% empty %}
+
+                                          <td class="text-center">
+                                            بيماري وجود ندارد.
+                                          </td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+
+                                          {% endfor %}
+                                          <center>
+                                              {%if patient.has_previous %} {# whether the previous page exists #}
+                                                  <a href="?page={{patient.previous_page_number}}"><</a> {# link to the prev page #}
+                                              {% endif %}
+                                              <span>{{patient.number}}</span> {# the current page number #}
+
+                                              {%if patient.has_next %} {# whether the next page exists #}
+                                                  <a href="?page={{patient.next_page_number}}">></a> {# link to the next page #}
+                                              {% endif %}
+                                              <input style="width: 30px" id="page_num">
+                                              <button class="btn-primary" onclick="window.location.href = '?page=' + document.getElementById('page_num').value">برو</button>
+                                          </center>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <center>
+                                      {%if patient.has_previous %} {# whether the previous page exists #}
+                                          <a href="?page={{patient.previous_page_number}}"><</a> {# link to the prev page #}
+                                      {% endif %}
+                                      <span>{{patient.number}}</span> {# the current page number #}
+
+                                      {%if patient.has_next %} {# whether the next page exists #}
+                                          <a href="?page={{patient.next_page_number}}">></a> {# link to the next page #}
+                                      {% endif %}
+                                      <input style="width: 30px" id="page_num">
+                                      <button class="btn-primary" onclick="window.location.href = '?page=' + document.getElementById('page_num').value">برو</button>
+                                  </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<script type="text/javascript">
+  document.getElementById('id_searchtxt').placeholder ='جستجوی پرونده: شماره ملی،تلفن همراه، نام';
+  document.getElementById('id_status').value = '1';
+</script>
+{% endblock %}
