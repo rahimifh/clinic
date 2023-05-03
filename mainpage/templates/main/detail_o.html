@@ -1,0 +1,486 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="app-main__inner">
+
+
+<div class="app-page-title">
+<div class="page-title-wrapper">
+<div class="page-title-heading">
+<div class="page-title-icon">
+    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+    </i>
+</div>
+<div>پرونده:{{patient}}
+  {% if mess %}
+    <h2 style="color:green;">{{mess}}</h2>
+    {% endif %}
+    {% if patient.NationalCode == None %}
+<h2 style="color:red;">لطفا ابتدا کدملی بیمار را وارد کنید سپس صفحه را مجدد بارگیری کنید.</h2>
+{% endif %}
+    <div class="page-title-subheading">براي ثبت نوبت -ارجاع به جراحي و پذيرش بيمار بر روي دكمه عمليات كليك كنيد.
+    </div>
+</div>
+</div>
+<div class="page-title-actions">
+<button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
+    <i class="fa fa-arrow">=></i>
+</button>
+<div class="d-inline-block dropdown">
+    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-info">
+        <span class="btn-icon-wrapper pr-2 opacity-7">
+            <i class="fa fa-edit fa-w-20"></i>
+        </span>
+        عمليات
+    </button>
+    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="{% url 'reception:reception' patient.id %}" class="nav-link">
+                    <i class="nav-link-icon lnr-inbox"></i>
+                    <span>
+                      ثبت پذيرش
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'turn:take_turn_s' patient.id %}" class="nav-link">
+                    <i class="nav-link-icon lnr-book"></i>
+                    <span>
+                        ثبت نوبت
+                    </span>
+
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'reception:Refer_Surgery' patient.id %}" class="nav-link">
+                    <i class="nav-link-icon lnr-picture"></i>
+                    <span>
+                        ارجاع به جراحي
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a disabled href="javascript:void(0);" class="nav-link disabled">
+                    <i class="nav-link-icon lnr-file-empty"></i>
+                    <span>
+                      {{patient}}
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>    </div>
+</div>
+<div class="main-card mb-3 card">
+<div class="card-body"><h5 class="card-title">مشخصات</h5>
+<div class="row">
+<div class="col">
+    <ul class="nav flex-column">
+
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">نام
+
+            {% if patient.p_name %}
+              <div class="ml-auto badge badge-success">{{patient.p_name}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.p_name}}</div>
+            {% endif %}
+        </a></li>
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">نام خانوادگي
+
+            {% if patient.last_name %}
+              <div class="ml-auto badge badge-success">{{patient.last_name}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.last_name}}</div>
+            {% endif %}
+        </a></li>
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link">شماره تلفن
+
+            {% if patient.mobile %}
+              <div class="ml-auto badge badge-success">{{patient.mobile}}</div>
+            {% else %}
+            <div class="ml-auto badge badge-danger">{{patient.mobile}}</div>
+            {% endif %}
+        </a></li>
+    </ul>
+</div>
+<div class="col">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">تلفن ثابت
+        {% if patient.land_line_phone %}
+          <div class="ml-auto badge badge-success">{{patient.land_line_phone}}</div>
+        {% else %}
+        <div class="ml-auto badge badge-danger">{{patient.land_line_phone}}</div>
+        {% endif %}
+
+      </a></li>
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">سن
+
+          {% if patient.age %}
+            <div class="ml-auto badge badge-success">{{patient.age}}</div>
+          {% else %}
+          <div class="ml-auto badge badge-danger">{{patient.age}}</div>
+          {% endif %}
+      </a></li>
+      <li class="nav-item"><a href="javascript:void(0);" class="nav-link">جنسيت
+          {% if patient.Gender == 1 %}<div class="ml-auto badge badge-success"> مرد </div>{% elif patient.Gender == 0  %} <div class="ml-auto badge badge-success"> زن</div> {% else %} <div class="ml-auto badge badge-danger">نا مشخص</div> {% endif %}
+      </a></li>
+
+    </ul>
+</div>
+</div>
+
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="main-card mb-3 card">
+<div class="card-header">
+    <div class="btn-actions-pane-right">
+        <div role="group" class="btn-group-sm btn-group">
+            <button class="active btn btn-focus">ليست نوبت هاي {{patient}}</button>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="align-middle mb-0 table table-borderless table-striped table-hover"><div class="badge-success text-center">
+      نوبت هاي فعال
+    </div>
+        <thead>
+        <tr>
+            <th class="text-center">حذف نوبت</th>
+            <th>تاريخ</th>
+            <th class="text-center">همكار</th>
+            <th class="text-center">خدمت</th>
+            <th class="text-center">شماره</th>
+            <th class="text-center">بيمار</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for i in active_turn  %}
+        <tr>
+            <td class="text-center text-muted">
+              <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+                {% csrf_token %}
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" type="submit"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+              </form>
+            </td>
+            <td>
+              {{i.get_jalali_date}}
+            </td>
+            <td class="text-center">{{i.user}}</td>
+            <td class="text-center">
+              {% if i.part == 0 %}
+               'Post-مغز'
+              {% elif i.part == 1 %}
+                  'post-کمر'
+                {% elif i.part == 2 %}
+                 'post-هیپوفیز'
+                {% elif i.part == 3 %}
+                'new-مغز'
+                {% elif i.part == 4 %}
+                'new-کمر'
+                {% elif i.part == 5 %}
+                  'new-هیپوفیز'
+                {% elif i.part == 6 %}
+                 'بخیه-مغز'
+                {% elif i.part == 7 %}
+                  'بخیه-کمر'
+                {% endif %}
+            </td>
+            <td class="text-center">
+              {{i.TurnCode}}
+            </td>
+            <td class="text-center">
+              <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+            </td>
+        </tr>
+      {% empty %}
+
+      <td class="text-center">
+          نوبت فعالي وجود ندارد
+      </td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="align-middle mb-0 table table-borderless table-striped table-hover"><div class="badge-danger text-center">
+      نوبت هاي منقضي شده
+    </div>
+        <thead>
+        <tr>
+            <th class="text-center">حذف نوبت</th>
+            <th>تاريخ</th>
+            <th class="text-center">همكار</th>
+            <th class="text-center">خدمت</th>
+            <th class="text-center">شماره</th>
+            <th class="text-center">بيمار</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for i in deactive_turn  %}
+        <tr>
+            <td class="text-center text-muted">
+              <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+                {% csrf_token %}
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" type="submit"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+              </form>
+            </td>
+            <td>
+              {{i.get_jalali_date}}
+            </td>
+            <td class="text-center">{{i.user}}</td>
+            <td class="text-center">
+              {% if i.part == 0 %}
+               'Post-مغز'
+              {% elif i.part == 1 %}
+                  'post-کمر'
+                {% elif i.part == 2 %}
+                 'post-هیپوفیز'
+                {% elif i.part == 3 %}
+                'new-مغز'
+                {% elif i.part == 4 %}
+                'new-کمر'
+                {% elif i.part == 5 %}
+                  'new-هیپوفیز'
+                {% elif i.part == 6 %}
+                 'بخیه-مغز'
+                {% elif i.part == 7 %}
+                  'بخیه-کمر'
+                {% endif %}
+            </td>
+            <td class="text-center">
+              {{i.TurnCode}}
+            </td>
+            <td class="text-center">
+              <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+            </td>
+        </tr>
+      {% empty %}
+
+      <td class="text-center">
+          تاكنون نوبتي ثبت نشده.
+      </td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+<div class="main-card mb-3 card">
+<div class="card-header">
+    <div class="btn-actions-pane-right">
+        <div role="group" class="btn-group-sm btn-group">
+            <button class="active btn btn-focus">ليست جراحي</button>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">برائت نامه</th>
+            <th>شرح حال</th>
+            <th class="text-center">تاريخ جراحي</th>
+            <th class="text-center">نام پزشك</th>
+            <th clُass="text-center">عنوان عمل</th>
+            <th class="text-center">بيمار</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for i in surgery %}
+        <tr>
+
+{% if i.Medical_innocence %}<td class="text-center text-muted"><a href="{{i.Medical_innocence.url}}"><div class="badge badge-success">دريافت</div></a></td>{% else %}<td class="text-center text-muted"><div class="badge badge-danger">موجود نيست</div></td>{% endif %}
+{% if i.patient_history %}<td class="text-center text-muted"><a href="{{i.patient_history.url}}"><div class="badge badge-success">دريافت</div></a></td>{% else %}<td class="text-center text-muted"><div class="badge badge-danger">موجود نيست</div></td>{% endif %}
+
+            <td class="text-center">{{i.get_jalali_date}}</td>
+            <td class="text-center">
+              {{i.name_Doc}}
+            </td>
+            <td class="text-center">
+              {{i.name}}
+            </td>
+            <td class="text-center">
+              <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+            </td>
+        </tr>
+      {% empty %}
+
+      <td class="text-center">
+          بيماري ارجاع نشده است.
+      </td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+  <div class="main-card mb-3 card">
+      <div class="card-header">
+          <div class="btn-actions-pane-right">
+              <div role="group" class="btn-group-sm btn-group">
+                  <button class="active btn btn-focus">ليست پذيرش هاي بيمار</button>
+              </div>
+          </div>
+      </div>
+      <div class="table-responsive">
+          <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+              <thead>
+              <tr>
+                  <th class="text-center">ورود</th>
+                  <th clُass="text-center">تاريخ پذيرش</th>
+                  <th class="text-center">كد پذيرش</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for i in reception %}
+              <tr>
+
+
+                  <td class="text-center"><div class="badge badge-success">
+                    <a href="{{i.get_absolute_url}}">ویرایش</a>
+                  </div></td>
+                  <td class="text-center">
+                    {{i.get_jalali_date.date}}
+                  </td>
+                  <td class="text-center">
+                    {{i.EntranceCode}}
+                  </td>
+
+              </tr>
+            {% empty %}
+
+            <td class="text-center">
+                بيماري ارجاع نشده است.
+            </td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+</div>
+<div class="main-card mb-3 card">
+<div class="card-body">
+
+    <h5 class="card-title">فرم ويرايش پرونده</h5>
+    <form class="needs-validation"  action="{% url 'main:patient_file' patient.id %}" method="post"  novalidate>
+
+      {% csrf_token %}
+      <div class="form-row">
+
+          <div class="col-md-4 mb-3">
+
+              <label for="validationCustom01">كد ملي*</label>
+              {{ patientedit.NationalCode }}
+              <div class="valid-feedback">
+                  Looks good!
+              </div>
+          </div>
+          <div class="col-md-4 mb-3">
+              <label for="validationCustom02">نام</label>
+              {{ patientedit.p_name }}
+              <div class="valid-feedback">
+                  Looks good!
+              </div>
+          </div>
+          <div class="col-md-4 mb-3">
+              <label for="validationCustomUsername">نام خانوادگی</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend"></span>
+                  </div>
+                {{ patientedit.last_name }}
+                  <div class="invalid-feedback">
+
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 mb-3">
+              <label for="validationCustomUsername">شماره همراه</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend"></span>
+                  </div>
+                {{ patientedit.mobile }}
+                  <div class="invalid-feedback">
+
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="col-md-6 mb-3">
+              <label for="validationCustom03">تلفن ثابت</label>
+              {{ patientedit.land_line_phone }}
+              <div class="invalid-feedback">
+                  Please provide a valid part.
+              </div>
+          </div>
+          <div class="col-md-3 mb-3">
+              <label for="validationCustom04">سن</label>
+              {{ patientedit.age }}
+              <div class="invalid-feedback">
+                  Please provide a valid state.
+              </div>
+          </div>
+          <div class="col-md-3 mb-3">
+              <label for="validationCustom05">جنسيت</label>
+              {{ patientedit.Gender }}
+              <div class="invalid-feedback">
+                  Please!
+              </div>
+          </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit">اعمال تغييرات</button>
+  </form>
+
+</div>
+</div>
+</div>
+
+
+  <script type="text/javascript" src="./assets/scripts/main.js"></script>
+    <script type="text/javascript">
+      document.getElementById('id_searchtxt').placeholder ='جستجو پرونده: شماره ملي، تلفن، نام';
+      document.getElementById('id_status').value = '1';
+    </script>
+{% endblock %}

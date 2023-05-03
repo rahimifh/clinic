@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <link href="{% static 'css/main.css' %}?v=69" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/mdtimepicker.css' %}">
+    {% block custom_css %}  {% endblock %}
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+<div class="navbar" style="border-bottom:1px solid lightgray;">
+  <ul>
+
+    <li><a   href="{% url 'main:home' %}">خانه</a></li>
+    <li><a href="{% url 'turn:take_turn' %}">فرم وقت دهی  بیماران</a></li>   
+    <li><a  href="{% url 'main:Turn_list' %}">لیست نوبت</a></li>
+    <li><a  href="{% url 'main:pationt_list' %}">لیست بیماران</a></li>    
+    <li><a  href="{% url 'main:surgery_list' %}">لیست ارجاع جراحی</a></li>
+
+    <li><a  href="{% url 'main:Calender' %}">ثبت تعطیلات</a></li>
+    <li><a  href="{% url 'reception:reToSurgery' %}">ارجاع به جراحی</a></li>
+
+    <li><a  href="{% url 'account:logoutuser' %}">خروج</a></li>
+  </ul>
+
+</div>
+    {% block content %}
+
+    {% endblock %}
+
+<script src="{% static 'js/mdtimepicker.js' %}"></script>
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_date_1').mdtimepicker({
+            timeFormat: 'hh:mm:ss.000', // format of the time value (data-time attribute)
+            format: 'hh:mm tt',    // format of the input value
+            readOnly: false,       // determines if input is readonly
+            hourPadding: false,
+            theme: 'blue',
+            okLabel: 'تائید',
+            cancelLabel: 'انصراف',
+        });
+        $('#id_date_time_1').mdtimepicker({
+            timeFormat: 'hh:mm:ss.000', // format of the time value (data-time attribute)
+            format: 'hh:mm tt',    // format of the input value
+            readOnly: false,       // determines if input is readonly
+            hourPadding: false,
+            theme: 'blue',
+            okLabel: 'تائید',
+            cancelLabel: 'انصراف',
+        });
+    });
+</script>
+
+  </body>
+</html>

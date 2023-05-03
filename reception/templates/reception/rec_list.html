@@ -1,0 +1,107 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+                    <div class="app-main__inner">
+
+                      <div class="row" style="justify-content: right;">
+                          <div class="col-md-6 col-xl-4"  >
+                            <a style="text-decoration: none;" href="{% url 'main:p_download4' %}">
+                              <div class="card mb-3 widget-content bg-grow-early">
+                                  <div class="widget-content-wrapper text-white">
+                                      <div class="widget-content-left">
+                                          <div class="widget-heading"></div>
+                                          <div class="widget-subheading"></div>
+                                      </div>
+                                      <div class="widget-content-right">
+                                          <div class="widget-numbers text-white"><span>خروجی اكسل</span></div>
+                                      </div>
+                                  </div>
+                              </div></a>
+                          </div>
+                          <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
+                              <div class="card mb-3 widget-content bg-premium-dark">
+                                  <div class="widget-content-wrapper text-white">
+                                      <div class="widget-content-left">
+                                          <div class="widget-heading">Products Sold</div>
+                                          <div class="widget-subheading">Revenue streams</div>
+                                      </div>
+                                      <div class="widget-content-right">
+                                          <div class="widget-numbers text-warning"><span>$14M</span></div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="active btn btn-focus">لیست پذیرش ها</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">مرحله</th>
+                                                <th class="text-center">بیمار</th>
+                                                <th class="text-center">کد پذیرش</th>
+                                                <th class="text-center">شماره نوبت</th>
+                                                <th class="text-center">تاریخ پذیرش</th>
+                                                <th class="text-center">پرونده بیمار</th>
+                                                <th class="text-center">فایل پذیرش</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in Reception %}
+                                            <tr>
+                                              {% if i.TypeTurn == 0 %}
+                                                <td class="text-center" style="background:yellow;color:black;">جدید</td>
+                                              {% elif i.TypeTurn == 1 %}
+                                                <td class="text-center" style="background:orange;color:black;">بعد از عمل</td>
+                                              {% elif i.TypeTurn == 2 %}
+                                              <td class="text-center" style="background:olive;color:black;">رویت MRA</td>
+                                              {% endif %}
+                                                <td class="text-center">
+                                                  {{i.Patient}}
+                                                </td>
+                                                <td class="text-center">{{i.EntranceCode}}</td>
+                                                <td class="text-center">{{i.TurnCode}}</td>
+                                                <td class="text-center">{{i.get_jalali_date.date}}</td>
+                                                <td class="text-center">
+                                                    <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">پرونده بیمار</button></a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="{{i.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">فایل پذیرش</button></a>
+                                                </td>
+                                            </tr>
+
+                                          {% empty %}
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td class="text-center">
+                                            بیماری وجود ندارد.
+                                          </td>
+                                          {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<script type="text/javascript">
+  document.getElementById('id_searchtxt').placeholder ='جستجوی پرونده: شماره ملی،تلفن همراه، نام';
+  document.getElementById('id_status').value = '1';
+</script>
+{% endblock %}

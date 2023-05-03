@@ -1,0 +1,59 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block custom_css %}<link href="{% static 'css/detail.css' %}?v=11" rel="stylesheet">{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="creat_f">
+
+
+
+    <form class="" action="{% url 'main:creatFile' %}" method="post">
+      {% csrf_token %}
+      <table class="creatFile_f">
+        <caption><h2>ايجاد پرونده جديد</h2></caption>
+        <tbody>
+          <tr>
+            <td>{{form.NationalCode}}</td>
+            <td>{{form.p_name}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td>{{form.last_name}}</td>
+            <td>{{form.mobile}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td>{{form.land_line_phone}}</td>
+            <td>{{form.age}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td>{{form.Gender}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="ebtn" type="submit" name="button">ایجاد پرونده</button>
+    </form>
+
+
+
+</div>
+
+<script type="text/javascript">
+      document.getElementById('id_NationalCode').placeholder ='کد ملی';
+      document.getElementById('id_p_name').placeholder ='نام';
+      document.getElementById('id_last_name').placeholder ='نام خانوادگی';
+      document.getElementById('id_mobile').placeholder ='شماره موبایل';
+      document.getElementById('id_land_line_phone').placeholder ='شماره ثابت';
+      document.getElementById('id_age').placeholder ='سن';
+</script>
+<script type="text/javascript">
+  var content = document.getElementById('id_Gender');
+  var firstChild = content.firstChild;
+  firstChild.innerHTML = "جنسيت";
+</script>
+{% endblock %}

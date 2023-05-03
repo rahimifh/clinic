@@ -1,0 +1,124 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load jalali_tags %}
+{% block styles %}
+
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+
+{% endblock %}
+{% block content %}
+<style media="screen">
+.jalali_date-date{
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+}
+</style>
+                    <div class="app-main__inner">
+                      <div class="main-card mb-3 card">
+                          <div class="card-body">
+
+                                <h5 class="card-title">ارجاع به جراحي</h5>
+                                <form class="needs-validation" action="{% url 'reception:reToSurgery'%}" method="post" enctype="multipart/form-data" novalidate>
+
+                                  {% csrf_token %}
+                                  <div class="form-row">
+
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustom01">كد ملي*</label>
+                                          {{form.NationalCode}}
+                                          <div class="valid-feedback">
+                                              Looks good!
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustom02">تاريخ جراحي*</label>
+                                          {{form.date_time}}
+                                          <div class="valid-feedback">
+                                              Looks good!
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-4 mb-3">
+                                          <label for="validationCustomUsername">نام عمل جراحي*</label>
+                                          <div class="input-group">
+                                              <div class="input-group-prepend">
+                                                  <span class="input-group-text" id="inputGroupPrepend"></span>
+                                              </div>
+                                            {{form.name}}
+                                              <div class="invalid-feedback">
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-row">
+                                      <div class="col-md-6 mb-3">
+                                          <label for="validationCustom03">نام پزشك *</label>
+                                          {{form.name_Doc}}
+                                          <div class="invalid-feedback">
+                                              Please provide a valid part.
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3 mb-3">
+                                          <label for="validationCustom04">شرح حال</label>
+                                          {{form.patient_history}}
+                                          <div class="invalid-feedback">
+                                              Please provide a valid state.
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3 mb-3">
+                                          <label for="validationCustom05">برائت نامه</label>
+                                          {{form.Medical_innocence}}
+                                          <div class="invalid-feedback">
+                                              Please!
+                                          </div>
+                                      </div>
+                                  </div>
+                                <p>{{ request.user.date_joined|to_jalali:' تاریخ: 14%y/%m/%d_ ساعت: %H:%M' }}</p>
+                                  <button class="btn btn-primary" type="submit">ثبت ارجاع</button>
+                              </form>
+
+                          </div>
+                      </div>
+  <script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+  <script type="text/javascript">
+      window.holidays = [];
+  </script>
+  {% for i in lsit_day %}
+  <script type="text/javascript">
+    window.holidays.push('{{i.get_jalali_date}}')
+  </script>
+  {% endfor %}
+
+  <script>
+      //script1
+      var inputs = document.querySelectorAll('#id_date_time');
+
+      for (i = 0; i < inputs.length; i++) {
+          (function (i) {
+            inputs[i].addEventListener('click', function () {
+                  Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+              });
+          })(i);
+      }
+      //script1
+  </script>
+  <script type="text/javascript">
+    document.getElementById('id_NationalCode').placeholder ='کدملی';
+    document.getElementById('id_name').placeholder ='عنوان عمل جراحي';
+    document.getElementById('id_name_Doc').placeholder ='نام پزشك';
+    document.getElementById('id_date_time').placeholder ="تاريخ عمل 01-01-1400";
+
+  </script>
+{% endblock %}

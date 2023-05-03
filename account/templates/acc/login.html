@@ -1,0 +1,77 @@
+{#<!DOCTYPE html>#}
+{#{% load static %}#}
+{#<html lang="en" dir="ltr">#}
+{#  <head>#}
+{#    <meta charset="utf-8">#}
+{#    <title>ورود</title>#}
+{#    <link href="{% static 'css/login.css' %}?v=3" rel="stylesheet">#}
+{#      <link href="{% static 'css/home.css' %}?v=2" rel="stylesheet">#}
+{#      <link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />#}
+{##}
+{#  </head>#}
+{#  <body>#}
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{% static 'css/main.css' %}?v=43" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/mdtimepicker.css' %}">
+    <link href="{% static 'css/home.css' %}?v=35" rel="stylesheet">
+    <link href="{% static 'css/detail.css' %}?v=33" rel="stylesheet">
+    <link href="{% static 'css/login.css' %}?v=34" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>ورود</title>
+  </head>
+  <body>
+<div class="navbar">
+  <div style="display: flex; margin-top: 20px; margin-right: 1%;" class="">
+
+
+  </div>
+
+</div>
+<div class="back_image" style="min-height: 100vh;" >
+    <div class="container" style="text-align:center; width: 100%">
+        <div class="row">
+            <div class="col-4" style="text-align:center"></div>
+            <div class="col-4 loginbox" style="text-align:center">
+                <div class="loginHead">
+                  <div class="liginHeadimg">
+                    <img src="{% static 'images/LOGO.png' %}" width="50px" height="50px;" alt="logo">
+                  </div>
+
+                  <p><strong>سامانه ثبت اطلاعات بیماران</strong> </p>
+                </div>
+                <br>
+                {% if mess %}
+                <h6  style="color:red;">{{mess}}</h6>
+                {% endif %}
+
+                <form  action="{% url 'account:login' %}" method="post">
+
+                <tbody>
+                  <tr>
+                    <td>{{form.username }}</td>
+                    <td>{{form.password}}</td>
+                  </tr>
+                </tbody>
+
+    {#          <div class="inputs">{{form.username }}</div> <!--<input id="inputEmail" type="email" placeholder="Email address" required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4"> </div>-->#}
+    {#          <div class="inputs">{{form.password}}<br></div>#}
+
+                {% csrf_token %}
+    {#           <button type="submit" class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">ورود</button>#}
+                <button class="ebtn" type="submit" name="button">ورود</button>
+            </form>
+            <div class="loginfoot">
+              کلیه حقوق مادی و معنوی این سامانه برای دکتر گیو شریفی محفوظ است (c)
+            </div>
+        </div>
+        <div class="col-4" style="text-align:center"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

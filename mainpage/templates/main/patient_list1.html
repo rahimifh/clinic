@@ -1,0 +1,77 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load main_tags %}
+{% block custom_css %}<link href="{% static 'css/list_page.css' %}?v=1" rel="stylesheet">
+
+{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="search_main">
+  {% show_search %}
+</div>
+<div class="header">
+  <table class="table-bordered table-hover">
+
+    <caption class="text-center"><h2>لیست بیماران</h2></caption>
+    <a href="{% url 'main:p_download' %}">excel</a>
+
+    <center>
+        {%if patient.has_previous %} {# whether the previous page exists #}
+            <a href="?page={{patient.previous_page_number}}"><</a> {# link to the prev page #}
+        {% endif %}
+        <span>{{patient.number}}</span> {# the current page number #}
+
+        {%if patient.has_next %} {# whether the next page exists #}
+            <a href="?page={{patient.next_page_number}}">></a> {# link to the next page #}
+        {% endif %}
+        <input style="width: 30px" id="page_num">
+        <button class="btn-primary" onclick="window.location.href = '?page=' + document.getElementById('page_num').value">برو</button>
+    </center>
+
+    <thead>
+      <tr>
+        <th>کد ملی</th>
+        <th>نام</th>
+        <th>تلفن</th>
+        <th data-priority="1">تفن ثابت</th>
+        <th data-priority="2"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in patient %}
+      <tr>
+
+        <td>{{i.NationalCode}}</td>
+        <td>{{i.p_name}} {{i.last_name}}</td>
+        <td>{{i.mobile}}</td>
+        <td>{{i.land_line_phone}}</td>
+        <td style="background-color: #88D1E0;"><a href="{{i.get_absolute_url}}">ورود</a></td>
+      </tr>
+      {% empty %}
+      <li>تاکنون بیماری ثبت نشد</li>
+      {% endfor %}
+    </tbody>
+  </table>
+      <center>
+        {%if patient.has_previous %} {# whether the previous page exists #}
+            <a href="?page={{patient.previous_page_number}}"><</a> {# link to the prev page #}
+        {% endif %}
+        <span>{{patient.number}}</span> {# the current page number #}
+
+        {%if patient.has_next %} {# whether the next page exists #}
+            <a href="?page={{patient.next_page_number}}">></a> {# link to the next page #}
+        {% endif %}
+        <input style="width: 30px" id="page_num">
+        <button class="btn-primary" onclick="window.location.href = '?page=' + document.getElementById('page_num').value">برو</button>
+    </center>
+</div>
+
+<script type="text/javascript">
+  document.getElementById('id_searchtxt').placeholder ='جستجوی پرونده: شماره ملی،تلفن همراه، نام';
+  document.getElementById('id_status').value = '1';
+</script>
+
+
+
+{% endblock %}

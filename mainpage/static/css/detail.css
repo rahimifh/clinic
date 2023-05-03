@@ -1,0 +1,244 @@
+input{
+  width: 90%;
+  height: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  border: 1px solid rgb(200, 200, 200);
+}
+select{
+  border: 1px solid rgb(200, 200, 200);
+  width: 90%;
+  height: 40px;
+  border-radius: 3px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+
+.head_p_table{
+  font-size: 1.2em;
+  margin-right: 40px;
+}
+.head_p_table td{
+  border-bottom: 1px solid rgb(200, 200, 200);
+}
+.detail_container{
+  width: 70%;
+  margin-right: 15%;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 40px;
+}
+.header{
+  width: 100%;
+  height: auto;
+  text-align: center;
+
+
+}
+.topHead{
+  width: 100%;
+  height:  75px;
+  color: rgb(100, 100, 100);
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid rgb(200, 200, 200);
+
+
+}
+.headbottom{
+  display: flex;
+  width: 80%;
+  height:  auto;
+  margin-right: 10%;
+  text-align: center;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+  margin-top: 20px;
+
+}
+.headbottom ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.headbottom table{
+  width: 100%;
+  text-align: center;
+}
+.headbottom td{
+  width: 33%;
+}
+.edit_patient{
+  text-align: center;
+  width: 80%;
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-right: 10%;
+  display: grid;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+
+
+}
+.form_head{
+  width: 100%;
+  border-bottom: 1px solid rgb(200, 200, 200);
+  height: 50px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+
+}
+.edit_patient form{
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+
+}
+.edit_patient input{
+  width: 90%;
+  height: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  border: 1px solid rgb(200, 200, 200);
+}
+.edit_patient select{
+  border: 1px solid rgb(200, 200, 200);
+  width: 90%;
+  height: 40px;
+  border-radius: 3px;
+  background-color: white;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.edit_patient td{
+
+  width: 33%;
+
+}
+.surgury_list{
+  width: 80%;
+  margin-right: 10%;
+  margin-top: 20px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+}
+.surgury-banner{
+  width: 100%;
+  height: 30px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.surgury_list td{
+  width: 20%;
+
+}
+.top_edit_patient{
+  display: flex;
+}
+.gt{
+  width: 33%;
+  display: grid;
+  margin-right: 10px;
+}
+.gt span{
+  margin-bottom: 10px;
+}
+.patient_nav{
+  width: 100%;
+  text-align: center;
+}
+
+.patient_nav ul{
+  margin-right: 18%;
+  display: flex;
+
+}
+.patient_nav li{
+  text-decoration: none;
+  list-style: none;
+  margin-right: 20px;
+}
+.patient_nav a{
+  text-decoration: none;
+
+}
+.file_footer{
+  width: 80%;
+  margin-right: 10%;
+  margin-top: 20px;
+  height: auto;
+  display: flex;
+  background-color: white;
+  margin-bottom: 20px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+
+}
+.footer_right{
+  width: 50%;
+  padding-right: 10px;
+  padding-left: 5px;
+
+}
+.footer_left{
+  width: 50%;
+  border-right: 1px solid rgb(200, 200, 200);
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+.turn_s_li{
+  background:#073431;
+  text-align: center;
+  color: white;
+  width: 100%;
+
+}
+.servic_list{
+  width: 50%;
+  padding-right: 30px;
+}
+
+.creat_f{
+  margin-top: 100px;
+  background: white;
+  border-radius: 5px;
+  width: 60%;
+  margin-right: 20%;
+  height: auto;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+
+
+}
+.creatFile_f{
+  width: 100%;
+}
+
+.chshe_desk_form{
+  display: flex;
+}
+.diagnisis{
+  width: 50%;
+}
+.rec_form_btn{
+  display: flex;
+  width: 80%;
+  height: 50px;
+  margin-right: 10%;
+  padding-right: 10%;
+
+}
+.rec_form_btn button{
+  width: 200px;
+  margin-right: 20px;
+}

@@ -1,0 +1,14 @@
+
+
+<div class="search-wrapper">
+    <div class="input-holder">
+      <form class="" action="{% url 'main:search' %}" method="post">
+      {% csrf_token %}
+      {{searchform.searchtxt}}
+        <input type="hidden" id="id_status" name="status" value="">
+
+      </form>
+        <button class="search-icon"><span></span></button>
+    </div>
+    <button class="close"></button>
+</div>

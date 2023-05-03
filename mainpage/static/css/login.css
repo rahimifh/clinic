@@ -1,0 +1,34 @@
+.loginHead{
+  width: 100%;
+  background-color: #00264d;
+  color: #fff;
+  display: flex;
+  min-height: 100px;
+  text-align: center;
+  justify-content: center;
+  padding-top: 8%;
+}
+.liginHeadimg{
+  background-color: #fff;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+}
+.loginfoot{
+  width: 100%;
+  background-color: #00264d;
+  color: #fff;
+  display: flex;
+  min-height: 100px;
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding-top: 8%;
+  font-weight: bold;
+}
+.loginbox{
+  box-shadow: 1px 1px 1px lightgray;
+  padding: 0;
+  background-color: #f3F3F3;
+  margin-top: 75px;
+}

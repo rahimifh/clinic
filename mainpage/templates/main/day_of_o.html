@@ -1,0 +1,110 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block styles %}
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+ <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+{% endblock %}
+{% block content %}
+<style media="screen">
+  .myform textarea{
+    height:40px;
+  }
+</style>
+                    <div class="app-main__inner">
+                      <div class="main-card mb-3 card" style="justify-content: right;">
+                          <div class="card-body" style="justify-content: right;"><h5 class="card-title" style="text-align: center;">ایجاد تعطیلات</h5>
+                              <div>
+                                  <form style="justify-content: space-around; direction: rtl; " class="form-inline" action="{% url 'main:Calender' %}" method="post">
+
+                                      <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group myform" >
+                                        {% csrf_token %}
+                                          تاریخ
+                                        {{form.date_time}}
+
+                                      </div>
+                                       <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group myform" >
+                                            مناسبت
+                                          {{form.Description}}
+                                      </div>
+                                      <button class="btn btn-primary" type="submit">ثبت</button>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="active btn btn-focus">لیست تعطیلات</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">تاریخ تعطیلات</th>
+
+                                                <th class="text-center">مناسبت</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in lsit_day %}
+                                            <tr>
+                                                <td class="text-center text-muted">
+                                                  {{i.get_jalali_date}}
+                                                </td>
+                                                <td>
+                                                  {{i.Description}}
+                                                </td>
+                                            </tr>
+                                          {% empty %}
+
+                                          <td class="text-center">
+                                              تعطیلاتی تعریف نشده است
+                                          </td>
+                                          <td>-</td>
+
+                                          {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو';
+  document.getElementById('id_status').value = '1';
+</script>
+  <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+  <script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+  <script type="text/javascript">
+      window.holidays = [];
+  </script>
+  {% for i in lsit_day %}
+  <script type="text/javascript">
+    window.holidays.push('{{i.get_jalali_date}}')
+  </script>
+  {% endfor %}
+
+  <script>
+      //script1
+    //  var inputs = document.querySelectorAll('#id_date_time');
+
+      for (i = 0; i < inputs.length; i++) {
+          (function (i) {
+            inputs[i].addEventListener('click', function () {
+                  Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+              });
+          })(i);
+      }
+      //script1
+  </script>
+
+  {{ form.media }}
+{% endblock %}

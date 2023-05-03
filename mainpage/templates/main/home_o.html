@@ -1,0 +1,97 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+                    <div class="app-main__inner">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <div class="btn-actions-pane-right">
+                                            <div role="group" class="btn-group-sm btn-group">
+                                                <button class="active btn btn-focus">نوبت هاي امروز</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">حذف نوبت</th>
+                                                <th>تاريخ</th>
+                                                <th class="text-center">همكار</th>
+                                                <th class="text-center">خدمت</th>
+                                                <th class="text-center">شماره</th>
+                                                <th class="text-center">بيمار</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for i in turn %}
+                                            <tr>
+                                                <td class="text-center text-muted">
+                                                  <form  action="{% url 'turn:delete_turn_h' i.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" type="submit"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+                                                  </form>
+                                                </td>
+                                                <td>
+                                                  {{i.get_jalali_date}}
+                                                </td>
+                                                <td class="text-center">{{i.user}}</td>
+                                                <td class="text-center">
+                                                  {% if i.part == 0 %}
+                                                   'Post-مغز'
+                                                  {% elif i.part == 1 %}
+                                                      'post-کمر'
+                                                    {% elif i.part == 2 %}
+                                                     'post-هیپوفیز'
+                                                    {% elif i.part == 3 %}
+                                                    'new-مغز'
+                                                    {% elif i.part == 4 %}
+                                                    'new-کمر'
+                                                    {% elif i.part == 5 %}
+                                                      'new-هیپوفیز'
+                                                    {% elif i.part == 6 %}
+                                                     'بخیه-مغز'
+                                                    {% elif i.part == 7 %}
+                                                      'بخیه-کمر'
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-center">
+                                                  {{i.TurnCode}}
+                                                </td>
+                                                <td class="text-center">
+                                                  <a href="{{i.Patient.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">{{i.Patient}}</button></a>
+
+                                                </td>
+                                            </tr>
+                                          {% empty %}
+
+                                          <td class="text-center">
+                                              نوبتي براي امروز ثبت نشده است.
+                                          </td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-block text-center card-footer">
+                                      <a  href="{% url 'main:Turn_list' %}"><button class="btn-wide btn btn-success">ليست  نوبت</button></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    <script type="text/javascript">
+      document.getElementById('id_searchtxt').placeholder ='جستجو پرونده: شماره ملي، تلفن، نام';
+      document.getElementById('id_status').value = '1';
+    </script>
+{% endblock %}

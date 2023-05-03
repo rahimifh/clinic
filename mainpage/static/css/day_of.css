@@ -1,0 +1,32 @@
+.day_of_box{
+  width: 80vw;
+  margin-right: 10vw;
+  height: auto;
+  background: #bad9d4;
+  margin-top: 30px;
+  padding-top: 20px;
+  text-align: center;
+}
+.day_of_middel{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 20px;
+  background-color: #073431;
+  color: #f3f3f5;
+  text-align: center;
+}
+.day_of_box input{
+  border: 0;
+  border-bottom: 2px solid #eacfc4;
+  width:80%;
+  height: 20px;
+  margin-right: 10px;
+}
+.day_of_box textarea{
+  border: 0;
+  width: 80%;
+  border-bottom: 2px solid #eacfc4;
+  height: 20px;
+
+}

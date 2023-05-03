@@ -1,0 +1,75 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block custom_css %}
+<link href="{% static 'css/surgery.css' %}?v=8" rel="stylesheet">
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="surgery-box">
+  <div class="surgery_form_head">
+    <h2>فرم ارجاع به جراحي</h2>
+  </div>
+  <table class="Form-Table Form-TableST">
+
+    <form class="" action="{% url 'reception:reToSurgery'%}" method="post" enctype="multipart/form-data" >
+      <tbody>
+        <tr>
+          <td>{{form.NationalCode}}*</td>
+          <td>{{form.date_time}}*</td>
+        </tr>
+      </tbody>
+    <tbody>
+      <tr>
+
+        <td>{{form.name}}*</td>
+        <td>{{form.name_Doc}}*</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td>{{form.patient_history}}</td>
+        <td>{{form.Medical_innocence}}</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+              {% csrf_token %}
+        <td><button class="ebtn" type="submit" name="button">ثبت</button></td>
+      </tr>
+    </tbody>
+    </form>
+  </table>
+</div>
+
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+<script type="text/javascript">
+    window.holidays = [];
+</script>
+{% for i in lsit_day %}
+<script type="text/javascript">
+  window.holidays.push('{{i.get_jalali_date}}')
+</script>
+{% endfor %}
+
+<script>
+    //script1
+    var inputs = document.querySelectorAll('#id_date_time');
+
+    for (i = 0; i < inputs.length; i++) {
+        (function (i) {
+          inputs[i].addEventListener('click', function () {
+                Mh1PersianDatePicker.Show(this, '{{today}}', window.holidays);
+            });
+        })(i);
+    }
+    //script1
+</script>
+<script type="text/javascript">
+  document.getElementById('id_NationalCode').placeholder ='کدملی';
+  document.getElementById('id_name').placeholder ='عنوان عمل جراحي';
+  document.getElementById('id_name_Doc').placeholder ='نام پزشك';
+  document.getElementById('id_date_time').placeholder ="تاريخ عمل 01-01-1400";
+
+</script>
+{% endblock %}

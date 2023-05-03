@@ -1,0 +1,245 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+  <div class="app-main__inner">
+
+      <div class="row">
+          <div class="col-md-12">
+            {% if patient %}
+              <div class="main-card mb-3 card">
+                  <div class="card-header">
+                      <div class="btn-actions-pane-right">
+                          <div role="group" class="btn-group-sm btn-group">
+                              <button class="active btn btn-focus">بیماران</button>
+                              {% if mess %}
+                              <p>{{mess}}</p>
+                              {% endif %}
+                          </div>
+                      </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                          <thead>
+                          <tr>
+                              <th class="text-center">كدملی</th>
+                              <th class="text-center">نام</th>
+                              <th class="text-center">نام خانوادگی</th>
+                              <th class="text-center">شماره موبایل</th>
+                              <th class="text-center">پرونده</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in patient %}
+                          <tr>
+                            <td class="text-center">
+                                {{i.NationalCode}}
+                            </td>
+                            <td class="text-center">{{i.p_name}}</td>
+                            <td class="text-center">
+                                {{i.last_name}}
+                            </td>
+                            <td class="text-center">
+                              {{i.mobile}}
+                            </td>
+                            <td class="text-center">
+                              <a href="{{i.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">ورود</button></a>
+                            </td>
+                          </tr>
+                        {% empty %}
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td class="text-center">
+                            بیماری یافت نشد
+                        </td>
+                        {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+                  </div>
+                {% endif %}
+                {% if reception %}
+                  <div class="main-card mb-3 card">
+                      <div class="card-header">
+                          <div class="btn-actions-pane-right">
+                              <div role="group" class="btn-group-sm btn-group">
+                                  <button class="active btn btn-focus">پذیرش ها</button>
+                                  {% if mess %}
+                                  <p>{{mess}}</p>
+                                  {% endif %}
+                              </div>
+                          </div>
+                      </div>
+                      <div class="table-responsive">
+                          <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                              <thead>
+                              <tr>
+                                  <th class="text-center">بیمار</th>
+                                  <th class="text-center">كدپذیرش</th>
+                                  <th class="text-center">شماره نوبت</th>
+                                  <th class="text-center">تاریخ</th>
+                                  <th class="text-center">ویرایش</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                {% for i in patient %}
+                              <tr>
+                                  <td class="text-center">
+                                    {{i.Patient}}
+                                  </td>
+                                  <td class="text-center">{{i.EntranceCode}}</td>
+
+                                  <td class="text-center">
+                                    {{i.TurnCode}}
+                                  </td>
+                                <td class="text-center">
+                                  تاریخ پذیرش:{{i.get_jalali_date.date}}
+                                </td>
+
+                                <td class="text-center">
+                                  <a href="{{i.get_absolute_url}}"><button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">ورود</button></a>
+
+                                </td>
+
+
+                              </tr>
+                            {% empty %}
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="text-center">
+                              پذیرشی یافت نشد
+                            </td>
+                            {% endfor %}
+                              </tbody>
+                          </table>
+                      </div>
+                      </div>
+                    {% endif %}
+                    {% if refer %}
+                      <div class="main-card mb-3 card">
+                          <div class="card-header">
+                              <div class="btn-actions-pane-right">
+                                  <div role="group" class="btn-group-sm btn-group">
+                                      <button class="active btn btn-focus">پذیرش ها</button>
+                                      {% if mess %}
+                                      <p>{{mess}}</p>
+                                      {% endif %}
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="table-responsive">
+                              <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                  <thead>
+                                  <tr>
+                                      <th class="text-center">بیمار</th>
+                                      <th class="text-center">نام عمل</th>
+                                      <th class="text-center">پزشك</th>
+                                      <th class="text-center">تاریخ عمل</th>
+                                      <th class="text-center">ورود به پرونده</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% for i in patient %}
+                                  <tr>
+                                    <td class="text-center">
+                                        {{i.Patient}}
+                                    </td>
+                                    <td class="text-center">{{i.name}}</td>
+                                    <td class="text-center">
+                                        {{i.name_Doc}}
+                                    </td>
+                                    <td class="text-center">
+                                      {{i.get_jalali_date}}
+                                    </td>
+                                    <td class="text-center">
+                                      <a class="ebtn" href="{{i.Patient.get_absolute_url}}">ورود به پرونده</a>
+                                    </td>
+                                  </tr>
+                                {% empty %}
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td class="text-center">
+                                    جراحی یافت نشد
+                                </td>
+                                {% endfor %}
+                                  </tbody>
+                              </table>
+                          </div>
+                          </div>
+                        {% endif %}
+                        {% if turns %}
+                          <div class="main-card mb-3 card">
+                              <div class="card-header">
+                                  <div class="btn-actions-pane-right">
+                                      <div role="group" class="btn-group-sm btn-group">
+                                          <button class="active btn btn-focus">پذیرش ها</button>
+                                          {% if mess %}
+                                          <p>{{mess}}</p>
+                                          {% endif %}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="table-responsive">
+                                  <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                      <thead>
+                                      <tr>
+                                          <th class="text-center">بیمار</th>
+                                          <th class="text-center">شماره نوبت</th>
+                                          <th class="text-center">تاریخ نوبت</th>
+                                          <th class="text-center">ورود به پرونده</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for i in turns %}
+                                      <tr>
+                                        <td class="text-center">
+                                            {{i.Patient}}
+                                        </td>
+<!--                                        <td class="text-center">{{i.name}}</td>-->
+                                        <td class="text-center">
+                                            {{i.TurnCode}}
+                                        </td>
+
+                                        <td class="text-center">
+                                          {{i.get_jalali_date}}
+                                        </td>
+                                        <td class="text-center">
+                                          <a class="ebtn" href="{{i.Patient.get_absolute_url}}">ورود به پرونده</a>
+                                        </td>
+                                      </tr>
+                                    {% empty %}
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td class="text-center">
+                                      نوبتی یافت نشد
+                                    </td>
+                                    {% endfor %}
+                                      </tbody>
+                                  </table>
+                              </div>
+                              </div>
+                    {% endif %}
+              </div>
+
+          </div>
+      </div>
+
+
+<script type="text/javascript">
+document.getElementById('id_searchtxt').placeholder ='جستجو پرونده: شماره ملی، تلفن، نام';
+document.getElementById('id_status').value = '1';
+</script>
+{% endblock %}

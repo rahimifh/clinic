@@ -1,0 +1,88 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load main_tags %}
+{% block custom_css %}<link href="{% static 'css/list_page.css' %}?v=2" rel="stylesheet">
+<link href="{% static 'css/Mh1PersianDatePicker.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block title %}p_login{% endblock %}
+{% block content %}
+<div class="search_main">
+  {% show_search %}
+</div>
+<div class="filter">
+  <form class="" action="{% url 'main:Turn_list' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button  class="filterbtn" type="submit" name="button">اعمال فیلتر</button>
+  </form>
+
+</div>
+<div class="header">
+  <table class="table-bordered table-hover">
+    <caption class="text-center"><h2>ليت نوبت ها</h2></caption>
+    <a href="{% url 'main:t_download' %}">excel</a>
+    <thead>
+      <tr>
+        <th>بیمار</th>
+        <th>شماره نوبت</th>
+        <th>خدمت</th>
+        <th>تاریخ نوبت</th>
+        <th>ساعت نوبت</th>
+        <th>توضیحات</th>
+        <th></th>
+        <th data-priority="2"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in turns %}
+      <tr>
+        <td>{{i.Patient}}</td>
+        <td>{{i.TurnCode}}</td>
+        <td>
+          {% if i.part == 0 %}
+           'Post-مغز'
+          {% elif i.part == 1 %}
+              'post-کمر'
+            {% elif i.part == 2 %}
+             'post-هیپوفیز'
+            {% elif i.part == 3 %}
+            'new-مغز'
+            {% elif i.part == 4 %}
+            'new-کمر'
+            {% elif i.part == 5 %}
+              'new-هیپوفیز'
+            {% elif i.part == 6 %}
+             'بخیه-مغز'
+            {% elif i.part == 7 %}
+              'بخیه-کمر'
+            {% endif %}
+        </td>
+        <td>{{i.get_jalali_date.date}}</td>
+        <td>{{i.get_jalali_date.time}}</td>
+        <td>{{i.Description}}</td>
+        <td >
+          <form  action="{% url 'turn:delete_turn' i.id %}" method="post">
+            {% csrf_token %}
+            <button class ="delbtn" type="submit" name="button">حذف نوبت</button>
+          </form>
+        </td>
+        <td style="background-color: #88D1E0;"><a href="{{i.Patient.get_absolute_url}}">پرونده بیمار</a></td>
+      </tr>
+      {% empty %}
+      <li>تا کنون پرونده ای به جراحی ارجاع نشده است</li>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو در نوبت ها : کد ملی';
+  document.getElementById('id_status').value = '4';
+</script>
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+<script src="{% static 'js/Mh1PersianDatePicker.js' %}"></script>
+{{ form.media }}
+
+{% endblock %}

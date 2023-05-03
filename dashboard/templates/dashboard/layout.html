@@ -1,0 +1,17 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+
+{% block layout %}
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        {% include "dashboard/partials/header.html" %}
+        {% include "dashboard/partials/ui_settings.html" %}
+        <div class="app-main">
+            {% include "dashboard/partials/sidebar.html" %}
+                <div class="app-main__outer">
+                    {% block content %} {% endblock %}
+                    {% include "dashboard/partials/footer.html" %}
+                </div>
+        </div>
+    </div>
+{% endblock %}

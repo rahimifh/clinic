@@ -1,0 +1,32 @@
+
+{% extends "main/layout.html" %}
+{% load static %}
+{% block styles %}
+<link href="{% static 'css/home.css' %}?v=33" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<style media="screen">
+  .myform textarea{
+    height:40px;
+  }
+</style>
+                    <div class="app-main__inner">
+                      <div class="main-card mb-3 card" style="justify-content: right;">
+                          <div class="card-body" style="justify-content: right;"><h5 class="card-title" style="text-align: center;">خطا</h5>
+                              <div>
+                                    <div class="error">
+
+    <h1>{{mess}}</h1>
+
+  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                    </div>
+<script type="text/javascript">id_status
+  document.getElementById('id_searchtxt').placeholder ='جستجو';
+  document.getElementById('id_status').value = '1';
+</script>
+
+{% endblock %}
